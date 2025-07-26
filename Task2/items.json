@@ -1,0 +1,60 @@
+[
+  {
+    "itemId": 1,
+    "title": "Python Programming",
+    "author": "Mohanad Moh",
+    "itemType": "Book",
+    "isAvailable": true,
+    "borrowedBy": null,
+    "isbn": "978-0123456789",
+    "pages": 300,
+    "isReserved": false,
+    "reservedBy": null
+  },
+  {
+    "itemId": 2,
+    "title": "Data Structures",
+    "author": "Ahmad Ali",
+    "itemType": "Book",
+    "isAvailable": true,
+    "borrowedBy": null,
+    "isbn": "978-9876543210",
+    "pages": 450,
+    "isReserved": false,
+    "reservedBy": null
+  },
+  {
+    "itemId": 3,
+    "title": "Tech Today",
+    "author": "Tech Publications",
+    "itemType": "Magazine",
+    "isAvailable": true,
+    "borrowedBy": null,
+    "issueNumber": 42,
+    "publicationDate": "2024-12-01"
+  },
+  {
+    "itemId": 4,
+    "title": "Programming Basics",
+    "author": "Educational Company",
+    "itemType": "DVD",
+    "isAvailable": true,
+    "borrowedBy": null,
+    "duration": 120,
+    "genre": "Educational",
+    "isReserved": false,
+    "reservedBy": null
+  },
+  {
+    "itemId": 5,
+    "title": "Linear Algebra",
+    "author": "Majed Majed",
+    "itemType": "DVD",
+    "isAvailable": true,
+    "borrowedBy": null,
+    "duration": 136,
+    "genre": "Sci-Fi",
+    "isReserved": false,
+    "reservedBy": null
+  }
+]
