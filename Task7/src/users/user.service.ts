@@ -1,6 +1,5 @@
 import { UserRepository } from "./user.repository";
 import { User } from "./user.entity";
-import { Role } from "./util/user.schema";
 
 class UserService {
   private repository = new UserRepository();
@@ -17,8 +16,8 @@ class UserService {
     return this.repository.create({ name, email, password, role: "COACH" });
   }
 
-  updateUser(id: string, name: string, email: string, role: Role): User | null {
-    return this.repository.update(id, { name, email, role });
+  updateUser(id: string, name: string, email: string): User | null {
+    return this.repository.update(id, { name, email });
   }
 
   isUserIdExist(id: string): boolean {

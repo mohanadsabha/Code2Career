@@ -34,9 +34,9 @@ export class UserController {
     const id = req.params.id;
     if (!id) return res.status(400).json({ error: "ID required" });
 
-    const { name, email, role } = req.body;
+    const { name, email } = req.body;
 
-    const user = this.service.updateUser(id, name, email, role);
+    const user = this.service.updateUser(id, name, email);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
