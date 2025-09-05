@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import AppError from "../shared/error.type";
 import { HttpErrorStatus } from "../shared/http.status";
-import { promisify } from "node:util";
-import { verify } from "jsonwebtoken";
-import { Role } from "../users/util/user.schema";
+import { Role } from "../users/utils/user.schema";
+import { userService } from "../users/user.service";
+import { verifyJWT } from "../auth/utils/jwt.util";
 export const isAuthenticated = async (
   req: Request,
   res: Response,
@@ -23,10 +23,19 @@ export const isAuthenticated = async (
       )
     );
   }
-  // Verify the token
-  const decoded = await promisify(verify)(token, process.env.JWT_SECRET);
+  // Verify the token and check if the user still exists
+  const decoded = await verifyJWT(token);
+  const user = userService.getUser(decoded.id);
+  if (!user) {
+    return next(
+      new AppError(
+        "The user does not longer exist.",
+        HttpErrorStatus.Unauthorized
+      )
+    );
+  }
   // Give access
-  req.user = decoded.id;
+  req.user = user;
   next();
 };
 

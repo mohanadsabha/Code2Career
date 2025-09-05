@@ -20,26 +20,38 @@ export class UserController {
     if (!user) {
       return next(new AppError("User not found", HttpErrorStatus.NotFound));
     }
-    res.json(user);
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
   };
 
-  createCoach = (req: Request, res: Response) => {
+  createCoach = (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
 
     const user = this.service.createCoach(name, email, password);
-    res.status(201).json(user);
+    res.status(201).json({
+      success: true,
+      data: user,
+    });
   };
 
-  updateUser = (req: Request, res: Response) => {
+  updateUser = (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    if (!id) return res.status(400).json({ error: "ID required" });
+    if (!id)
+      return next(new AppError("ID required", HttpErrorStatus.BadRequest));
 
     const { name, email } = req.body;
 
     const user = this.service.updateUser(id, name, email);
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return next(new AppError("User not found", HttpErrorStatus.NotFound));
     }
-    res.json(user);
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
   };
 }
+
+export const userController = new UserController();

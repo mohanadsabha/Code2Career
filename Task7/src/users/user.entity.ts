@@ -1,11 +1,11 @@
-import { userRole } from "./util/user.schema";
+import { Role } from "./utils/user.schema";
 
 export interface User {
   id: string;
   name: string;
   email: string;
   password: string;
-  role: userRole;
+  role: Role;
   createdAt: Date;
   updatedAt: Date;
 }

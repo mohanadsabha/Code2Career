@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import AppError from "./shared/error.type";
 import globalErrorHandler from "./shared/error.handler.js";
 import { userRouter } from "./users/user.routes";
+import { authRouter } from "./auth/auth.router";
 
 dotenv.config({ path: "./config.env" });
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 // Routes
 app.use("/api/v1/users", userRouter);
+app.use("api/v1/auth", authRouter);
 
 // Unhandled routes
 app.use((req: Request, res: Response, next: NextFunction) => {

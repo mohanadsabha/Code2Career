@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { success } from "zod";
 
 export default (
   err: Error,
@@ -20,6 +21,7 @@ export default (
     // Operational, trusted error
     if (err.isOperational) {
       res.status(err.statusCode).json({
+        success: false,
         status: err.status,
         message: err.message,
       });

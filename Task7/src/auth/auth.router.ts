@@ -1,10 +1,9 @@
-import { RequestHandler, Router } from "express";
+import { Router } from "express";
 import { authController } from "./auth.controller";
 
 const router = Router();
 
-router.post("/login");
-
-router.post("/register");
+router.post("/login", authController.login);
+router.post("/register", authController.register);
 
 export const authRouter = router;

@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { UserController } from "./user.controller";
+import { userController } from "./user.controller";
 import { isAuthenticated, restrictTo } from "../middlewares/auth.middleware";
 
 const router = Router();
-const userController = new UserController();
 
 router.use(isAuthenticated);
 router
