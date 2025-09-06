@@ -5,6 +5,7 @@ import { createArgonHash, verifyArgonHash } from "./utils/argon.util";
 
 export class AuthService {
   private _userService = userService;
+
   public async register(payload: RegisterDTO): Promise<Omit<User, "password">> {
     // hash password
     const hashedValue = await createArgonHash(payload.password);
@@ -15,8 +16,10 @@ export class AuthService {
       hashedValue
     );
 
-    return userData;
+    const { password, ...user } = userData;
+    return user;
   }
+
   public async login(
     payload: LoginDTO
   ): Promise<Omit<User, "password"> | null> {
@@ -29,7 +32,8 @@ export class AuthService {
     );
     if (!isPasswordMatch) return null;
 
-    return foundUser;
+    const { password, ...user } = foundUser;
+    return user;
   }
 }
 
