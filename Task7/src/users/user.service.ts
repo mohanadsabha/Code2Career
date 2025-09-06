@@ -1,8 +1,8 @@
-import { UserRepository } from "./user.repository";
+import { userRepository } from "./user.repository";
 import { User } from "./user.entity";
 
 class UserService {
-  private repository = new UserRepository();
+  private repository = userRepository;
 
   getUser(id: string): User | undefined {
     return this.repository.findById(id);
