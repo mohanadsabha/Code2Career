@@ -4,7 +4,7 @@ import AppError from "../shared/error.type";
 import { HttpErrorStatus } from "../shared/http.status";
 
 export class UserController {
-  private service = userService;
+  private userService = userService;
 
   setUserIdOnReq = (req: Request, res: Response, next: NextFunction) => {
     req.params.id = req.user.id;
@@ -16,7 +16,7 @@ export class UserController {
     res: Response,
     next: NextFunction
   ) => {
-    const user = this.service.getUser(req.params.id);
+    const user = this.userService.getUser(req.params.id);
     if (!user) {
       return next(new AppError("User not found", HttpErrorStatus.NotFound));
     }
@@ -29,7 +29,7 @@ export class UserController {
   createCoach = (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
 
-    const user = this.service.createCoach(name, email, password);
+    const user = this.userService.createCoach(name, email, password);
     res.status(201).json({
       success: true,
       data: user,
@@ -43,7 +43,7 @@ export class UserController {
 
     const { name, email } = req.body;
 
-    const user = this.service.updateUser(id, name, email);
+    const user = this.userService.updateUser(id, name, email);
     if (!user) {
       return next(new AppError("User not found", HttpErrorStatus.NotFound));
     }
