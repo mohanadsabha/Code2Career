@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 // Routes
 app.use("/api/v1/users", userRouter);
-app.use("api/v1/auth", authRouter);
+app.use("/api/v1/auth", authRouter);
 
 // Unhandled routes
 app.use((req: Request, res: Response, next: NextFunction) => {

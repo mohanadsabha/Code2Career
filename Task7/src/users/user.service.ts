@@ -16,6 +16,10 @@ class UserService {
     return this.repository.create({ name, email, password, role: "COACH" });
   }
 
+  public createUser(name: string, email: string, password: string): User {
+    return this.repository.create({ name, email, password, role: "STUDENT" });
+  }
+
   updateUser(id: string, name: string, email: string): User | null {
     return this.repository.update(id, { name, email });
   }
