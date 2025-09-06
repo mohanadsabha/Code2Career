@@ -4,6 +4,8 @@ type JWT_PAYLOAD = { id: string; name: string };
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
+console.log(process.env.NODE_ENV);
+
 export const signJWT = (payload: JWT_PAYLOAD) => {
   return sign(payload, JWT_SECRET, { expiresIn: "15m" });
 };

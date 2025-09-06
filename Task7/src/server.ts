@@ -1,11 +1,12 @@
-import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
+console.log(process.env.NODE_ENV);
+import express, { Request, Response, NextFunction } from "express";
 import AppError from "./shared/error.type";
 import globalErrorHandler from "./shared/error.handler.js";
 import { userRouter } from "./users/user.routes";
 import { authRouter } from "./auth/auth.router";
-
-dotenv.config({ path: "./config.env" });
+console.log(process.env.NODE_ENV);
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGT EXCEPTION! Shutting down...", err);
