@@ -9,7 +9,12 @@ class CourseService {
   public getCourse(id: string): Course | undefined {
     return this.repository.findById(id);
   }
-  public addCourse(title: string, description: string,owner: string, image?: string) {
+  public addCourse(
+    title: string,
+    description: string,
+    owner: string,
+    image?: string
+  ) {
     return this.repository.create({ title, description, image, owner });
   }
   public updateCourse(
@@ -18,7 +23,11 @@ class CourseService {
     description: string,
     image?: string
   ): Course | null {
-    return this.repository.update(id, { title, description, image });
+    const updates: Partial<Course> = { title, description };
+    if (image) {
+      updates.image = image;
+    }
+    return this.repository.update(id, updates);
   }
   public deleteCourse(id: string): boolean {
     return this.repository.delete(id);

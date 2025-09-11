@@ -27,11 +27,12 @@ class CourseController {
   }
   public addCourse(req: Request, res: Response, next: NextFunction) {
     const { title, description } = req.body;
-    // const image = req.file; implement multer
+    const image = req.file?.filename;
     const course = this.courseService.addCourse(
       title,
       description,
-      req.user.id
+      req.user.id,
+      image
     );
     res.status(201).json({
       success: true,
@@ -48,9 +49,14 @@ class CourseController {
       return next(new AppError("ID required", HttpErrorStatus.BadRequest));
 
     const { title, description } = req.body;
-    // const image = req.file; implement multer
+    const image = req.file?.filename;
 
-    const course = this.courseService.updateCourse(id, title, description);
+    const course = this.courseService.updateCourse(
+      id,
+      title,
+      description,
+      image
+    );
     if (!course) {
       return next(new AppError("Course not found", HttpErrorStatus.NotFound));
     }
