@@ -9,8 +9,8 @@ class CourseService {
   public getCourse(id: string): Course | undefined {
     return this.repository.findById(id);
   }
-  public addCourse(title: string, description: string, image?: string) {
-    return this.repository.create({ title, description, image });
+  public addCourse(title: string, description: string,owner: string, image?: string) {
+    return this.repository.create({ title, description, image, owner });
   }
   public updateCourse(
     id: string,

@@ -11,7 +11,6 @@ router.use(isAuthenticated, restrictTo("ADMIN", "COACH"));
 router.post("/", courseController.addCourse);
 router
   .route("/:id")
-  .put(courseController.updateCourse)
-  .delete(courseController.deleteCourse);
-// TODO: COACH MUST BE THE OWNER put/delete
+  .put(courseController.checkOwnerShip, courseController.updateCourse)
+  .delete(courseController.checkOwnerShip, courseController.deleteCourse);
 export const userRouter = router;
