@@ -5,4 +5,5 @@ export interface Course {
   image?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
+  owner: string;
 }
