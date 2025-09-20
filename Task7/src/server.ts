@@ -5,6 +5,7 @@ import AppError from "./shared/error.type";
 import globalErrorHandler from "./shared/error.handler";
 import { userRouter } from "./users/user.routes";
 import { authRouter } from "./auth/auth.router";
+import { courseRouter } from "./courses/course.routes";
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGT EXCEPTION! Shutting down...", err);
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 // Routes
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/courses", courseRouter);
 
 // Unhandled routes
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -28,18 +30,19 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Global Error Handeling Middleware
 app.use(globalErrorHandler);
 
-const PORT = process.env.PORT || 3000;
-
-const server = app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}...`);
-});
-
-process.on("unhandledRejection", (err) => {
-  console.log("UNHANDLED REJECTION! Shutting down...");
-  console.log(err);
-  server.close(() => {
-    process.exit(1);
+if (process.env.NODE_ENV !== "test") {
+  const PORT = process.env.PORT || 3000;
+  const server = app.listen(PORT, () => {
+    console.log(`App running on port ${PORT}...`);
   });
-});
+
+  process.on("unhandledRejection", (err) => {
+    console.log("UNHANDLED REJECTION! Shutting down...");
+    console.log(err);
+    server.close(() => {
+      process.exit(1);
+    });
+  });
+}
 
 export default app;

@@ -8,4 +8,11 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.json",
+      transpileOnly: true, // ✅ fix hybrid module warning
+      useESM: true, // since you use "nodenext"
+    },
+  },
 };

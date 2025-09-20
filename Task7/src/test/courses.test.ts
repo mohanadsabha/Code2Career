@@ -1,21 +1,49 @@
 import { todo } from "node:test";
 import { authedTestAgent, unAuthedTestAgent } from "./helpers/supertest.helper";
-
-describe("Courses E2E Tests", () => {
-  it("GET /api/v1/users with authed and unauthed agent", async () => {
+import { Course } from "../courses/course.entity";
+describe("GET /api/v1/courses e2e-test", () => {
+  it("GET /api/v1/courses with authed agent", async () => {
     const response = await authedTestAgent.get("/api/v1/courses");
     console.log(response);
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({
-      status: "success",
-      data: expect.any(Array),
-    });
-    const response2 = await unAuthedTestAgent.get("/api/v1/courses/1");
-    expect(response2.status).toBe(200);
-    expect(response2.body).toMatchObject({
-      status: "success",
+      success: true,
       data: expect.any(Array),
     });
   });
-  todo("Create Course");
+  it("GET /api/v1/courses with unauthed agent", async () => {
+    const response = await unAuthedTestAgent.get("/api/v1/courses");
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({
+      success: true,
+      data: expect.any(Array),
+    });
+  });
+});
+describe("POST /api/v1/courses e2e-test", () => {
+  it("Create Course with authed agent", async () => {
+    const response = await authedTestAgent.post("/api/v1/courses").send({
+      title: "Test Course",
+      description: "This is a test course",
+    });
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject({
+      success: true,
+      data: expect.objectContaining<Course>({
+        id: expect.any(Number),
+        title: expect.any(String),
+        description: expect.any(String),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        owner: expect.any(Number),
+      }),
+    });
+  });
+  it("Create Course with unauthed agent", async () => {
+    const response = await unAuthedTestAgent.post("/api/v1/courses").send({
+      title: "Test Course",
+      description: "This is a test course",
+    });
+    expect(response.status).toBe(401);
+  });
 });

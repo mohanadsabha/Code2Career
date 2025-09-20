@@ -26,6 +26,14 @@ class CourseController {
     });
   }
   public addCourse(req: Request, res: Response, next: NextFunction) {
+    if (!req.body.title || !req.body.description) {
+      return next(
+        new AppError(
+          "Title and Description are required",
+          HttpErrorStatus.BadRequest
+        )
+      );
+    }
     const { title, description } = req.body;
     const image = req.file?.filename;
     const course = this.courseService.addCourse(
