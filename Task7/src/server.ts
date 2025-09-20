@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 import express, { Request, Response, NextFunction } from "express";
 import AppError from "./shared/error.type";
-import globalErrorHandler from "./shared/error.handler.js";
+import globalErrorHandler from "./shared/error.handler";
 import { userRouter } from "./users/user.routes";
 import { authRouter } from "./auth/auth.router";
 
@@ -41,3 +41,5 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
+
+export default app;
