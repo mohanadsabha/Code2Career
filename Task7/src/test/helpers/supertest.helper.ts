@@ -4,7 +4,7 @@ import { userRepository } from "../../users/user.repository";
 import app from "../../server";
 
 const userT = {
-  name: "Test User",
+  name: "Admin",
   id: "1",
 };
 const user1 = userRepository.findById("1") ?? userT;

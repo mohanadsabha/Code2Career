@@ -30,12 +30,12 @@ describe("POST /api/v1/courses e2e-test", () => {
     expect(response.body).toMatchObject({
       success: true,
       data: expect.objectContaining<Course>({
-        id: expect.any(Number),
+        id: expect.any(String),
         title: expect.any(String),
         description: expect.any(String),
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
-        owner: expect.any(Number),
+        owner: expect.any(String),
       }),
     });
   });
