@@ -2,7 +2,7 @@ import { verify, sign } from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 
-type JWT_PAYLOAD = { id: string; name: string };
+type JWT_PAYLOAD = { id: number; name: string };
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export const signJWT = (payload: JWT_PAYLOAD) => {
@@ -24,5 +24,5 @@ export const verifyJWT = (token: string): Promise<JWT_PAYLOAD> => {
 };
 
 function isJWT_PAYLOAD(obj: any): obj is JWT_PAYLOAD {
-  return obj && typeof obj.id === "string" && typeof obj.name === "string";
+  return obj && typeof obj.id === "number" && typeof obj.name === "string";
 }

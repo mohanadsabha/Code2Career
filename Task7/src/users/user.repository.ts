@@ -1,29 +1,15 @@
-import { User } from "./user.entity";
+import { User } from "../generated/prisma";
 import { GenericRepository } from "../shared/generic.repository";
-import { createArgonHash } from "../auth/utils/argon.util";
 
 class UserRepository extends GenericRepository<User> {
   constructor() {
-    super();
-    this.items = [];
-    this.idCounter = 2;
-    this.init();
+    super("user");
   }
 
-  private async init() {
-    this.items.push({
-      id: "1",
-      name: "Admin",
-      role: "ADMIN",
-      email: "admin@no.com",
-      createdAt: new Date("2025-01-01T10:00:00Z"),
-      updatedAt: new Date("2025-01-01T10:00:00Z"),
-      password: await createArgonHash("admin123"),
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.prisma.user.findUnique({
+      where: { email },
     });
-  }
-
-  findByEmail(email: string): User | undefined {
-    return this.items.find((user) => user.email === email);
   }
 }
 

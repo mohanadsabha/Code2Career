@@ -1,31 +1,54 @@
 import { userRepository } from "./user.repository";
-import { User } from "./user.entity";
+import { User } from "../generated/prisma";
 
 class UserService {
   private repository = userRepository;
 
-  getUser(id: string): User | undefined {
-    return this.repository.findById(id);
+  async getUser(id: number): Promise<User | null> {
+    return await this.repository.findById(id);
   }
 
-  public findByEmail(email: string) {
-    return this.repository.findByEmail(email);
+  public async findByEmail(email: string): Promise<User | null> {
+    return await this.repository.findByEmail(email);
   }
 
-  public createCoach(name: string, email: string, password: string): User {
-    return this.repository.create({ name, email, password, role: "COACH" });
+  public async createCoach(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<User> {
+    return await this.repository.create({
+      name,
+      email,
+      password,
+      Role: "COACH",
+    });
   }
 
-  public createUser(name: string, email: string, password: string): User {
-    return this.repository.create({ name, email, password, role: "STUDENT" });
+  public async createUser(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<User> {
+    return await this.repository.create({
+      name,
+      email,
+      password,
+      Role: "STUDENT",
+    });
   }
 
-  updateUser(id: string, name: string, email: string): User | null {
-    return this.repository.update(id, { name, email });
+  async updateUser(
+    id: number,
+    name: string,
+    email: string
+  ): Promise<User | null> {
+    return await this.repository.update(id, { name, email });
   }
 
-  isUserIdExist(id: string): boolean {
-    return !!this.repository.findById(id);
+  async isUserIdExist(id: number): Promise<boolean> {
+    const user = await this.repository.findById(id);
+    return !!user;
   }
 }
 

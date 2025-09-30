@@ -1,49 +1,54 @@
+import { PrismaClient } from "../generated/prisma";
+
 export interface BaseEntity {
-  id: string;
+  id: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export class GenericRepository<T extends BaseEntity> {
-  protected items: T[] = [];
-  protected idCounter = 1;
+  protected prisma: PrismaClient;
+  protected model: keyof PrismaClient;
 
-  findAll(): T[] {
-    return this.items;
+  constructor(model: keyof PrismaClient) {
+    this.prisma = new PrismaClient();
+    this.model = model;
   }
 
-  findById(id: string): T | undefined {
-    return this.items.find((item) => item.id === id);
+  async findAll(): Promise<T[]> {
+    return (await (this.prisma[this.model] as any).findMany()) as T[];
   }
 
-  create(data: Omit<T, "id" | "createdAt" | "updatedAt">): T {
-    const now = new Date();
-    const item: T = {
-      ...data,
-      id: this.idCounter.toString(),
-      createdAt: now,
-      updatedAt: now,
-    } as T;
-    this.items.push(item);
-    this.idCounter++;
-    return item;
+  async findById(id: number): Promise<T | null> {
+    return (await (this.prisma[this.model] as any).findUnique({
+      where: { id },
+    })) as T | null;
   }
 
-  update(
-    id: string,
+  async create(data: Omit<T, "id" | "createdAt" | "updatedAt">): Promise<T> {
+    return (await (this.prisma[this.model] as any).create({
+      data,
+    })) as T;
+  }
+
+  async update(
+    id: number,
     data: Partial<Omit<T, "id" | "createdAt" | "updatedAt">>
-  ): T | null {
-    const item = this.findById(id);
-    if (!item) return null;
-    Object.assign(item, data);
-    item.updatedAt = new Date();
-    return item;
+  ): Promise<T | null> {
+    return (await (this.prisma[this.model] as any).update({
+      where: { id },
+      data,
+    })) as T;
   }
 
-  delete(id: string): boolean {
-    const index = this.items.findIndex((item) => item.id === id);
-    if (index === -1) return false;
-    this.items.splice(index, 1);
-    return true;
+  async delete(id: number): Promise<boolean> {
+    try {
+      await (this.prisma[this.model] as any).delete({
+        where: { id },
+      });
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

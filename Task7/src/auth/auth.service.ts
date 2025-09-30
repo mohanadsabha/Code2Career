@@ -23,7 +23,7 @@ export class AuthService {
   public async login(
     payload: LoginDTO
   ): Promise<Omit<User, "password"> | null> {
-    const foundUser = this._userService.findByEmail(payload.email);
+    const foundUser = await this._userService.findByEmail(payload.email);
     if (!foundUser) return null;
 
     const isPasswordMatch = await verifyArgonHash(

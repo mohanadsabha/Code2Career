@@ -3,34 +3,34 @@ import { courseRepository } from "./course.repository";
 
 class CourseService {
   private repository = courseRepository;
-  public getCourses() {
-    return this.repository.findAll();
+  public async getCourses() {
+    return await this.repository.findAll();
   }
-  public getCourse(id: string): Course | undefined {
-    return this.repository.findById(id);
+  public async getCourse(id: number) {
+    return await this.repository.findById(id);
   }
-  public addCourse(
+  public async addCourse(
     title: string,
     description: string,
-    owner: string,
-    image?: string
+    ownerId: number,
+    image: string | null
   ) {
-    return this.repository.create({ title, description, image, owner });
+    return await this.repository.create({ title, description, image, ownerId });
   }
-  public updateCourse(
-    id: string,
+  public async updateCourse(
+    id: number,
     title: string,
     description: string,
     image?: string
-  ): Course | null {
+  ): Promise<Course | null> {
     const updates: Partial<Course> = { title, description };
     if (image) {
       updates.image = image;
     }
-    return this.repository.update(id, updates);
+    return await this.repository.update(id, updates);
   }
-  public deleteCourse(id: string): boolean {
-    return this.repository.delete(id);
+  public async deleteCourse(id: number): Promise<boolean> {
+    return await this.repository.delete(id);
   }
   public checkOwnerShip() {}
 }

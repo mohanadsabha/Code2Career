@@ -7,10 +7,14 @@
     "dev": " tsx watch src/server.ts",
     "type-check": "tsc --noEmit"
   },
+  "prisma": {
+    "seed": "tsx prisma/seeds/seed.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.16.2",
     "argon2": "^0.44.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
@@ -30,6 +34,7 @@
     "@types/node": "^24.3.0",
     "@types/supertest": "^6.0.3",
     "nodemon": "^3.1.10",
+    "prisma": "^6.16.2",
     "ts-jest": "^29.4.3",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"

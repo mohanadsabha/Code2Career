@@ -1,7 +1,7 @@
 import { Role } from "./utils/user.schema";
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   password: string;

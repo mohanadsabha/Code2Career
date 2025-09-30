@@ -1,9 +1,9 @@
 export interface Course {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  image?: string | undefined;
+  image?: string | null;
   createdAt: Date;
   updatedAt: Date;
-  owner: string;
+  ownerId: number;
 }

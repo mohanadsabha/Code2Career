@@ -1,9 +1,9 @@
 import { GenericRepository } from "../shared/generic.repository";
-import { Course } from "./course.entity";
+import { Course } from "../generated/prisma";
 
 class CourseRepository extends GenericRepository<Course> {
   constructor() {
-    super();
+    super("course");
   }
 }
 

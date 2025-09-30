@@ -7,50 +7,61 @@ export class UserController {
   private userService = userService;
 
   setUserIdOnReq = (req: Request, res: Response, next: NextFunction) => {
-    req.params.id = req.user.id;
+    req.params.id = req.user.id.toString();
     next();
   };
 
-  getUser = (
+  getUser = async (
     req: Request<{ id: string }>,
     res: Response,
     next: NextFunction
   ) => {
-    const user = this.userService.getUser(req.params.id);
-    if (!user) {
-      return next(new AppError("User not found", HttpErrorStatus.NotFound));
+    try {
+      const user = await this.userService.getUser(Number(req.params.id));
+      if (!user) {
+        return next(new AppError("User not found", HttpErrorStatus.NotFound));
+      }
+      res.status(200).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
     }
-    res.status(200).json({
-      success: true,
-      data: user,
-    });
   };
 
-  createCoach = (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password } = req.body;
-
-    const user = this.userService.createCoach(name, email, password);
-    res.status(201).json({
-      success: true,
-      data: user,
-    });
+  createCoach = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { name, email, password } = req.body;
+      const user = await this.userService.createCoach(name, email, password);
+      res.status(201).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
   };
 
-  updateUser = (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
-    if (!id)
-      return next(new AppError("ID required", HttpErrorStatus.BadRequest));
+  updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+      if (!id)
+        return next(new AppError("ID required", HttpErrorStatus.BadRequest));
 
-    const { name, email } = req.body;
+      const { name, email } = req.body;
 
-    const user = this.userService.updateUser(id, name, email);
-    if (!user) {
-      return next(new AppError("User not found", HttpErrorStatus.NotFound));
+      const user = await this.userService.updateUser(id, name, email);
+      if (!user) {
+        return next(new AppError("User not found", HttpErrorStatus.NotFound));
+      }
+      res.status(200).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
     }
-    res.status(200).json({
-      success: true,
-      data: user,
-    });
   };
 }
 
